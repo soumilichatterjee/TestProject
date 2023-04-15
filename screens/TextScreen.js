@@ -4,7 +4,7 @@ import { View, ScrollView} from 'react-native';
 import Tasks from './AddingText/Tasks/Tasks.js';
 import NewTask from './AddingText/NewTask/NewTask.js'
 
-function TextScreen() {
+const TextScreen=()=> {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [tasks, setTasks] = useState([]);
