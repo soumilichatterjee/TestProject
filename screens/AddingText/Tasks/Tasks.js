@@ -1,14 +1,16 @@
 import React from 'react';
-import { Button, StyleSheet, Text, View } from 'react-native';
+import {Button, StyleSheet, Text, View} from 'react-native';
 import TaskItem from './TaskItem';
 
-const Tasks = (props) => {
-  let taskList = <Text style={styles.text}>No tasks found. Start adding some!</Text>;
+const Tasks = props => {
+  let taskList = (
+    <Text style={styles.text}>No tasks found. Start adding some!</Text>
+  );
 
   if (props.items.length > 0) {
     taskList = (
       <View style={styles.list}>
-        {props.items.map((task) => (
+        {props.items.map(task => (
           <TaskItem key={task.id}>{task.text}</TaskItem>
         ))}
       </View>

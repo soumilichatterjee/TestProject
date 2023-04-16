@@ -1,62 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Button, StyleSheet } from "react-native";
-import { db, firebase, auth } from "./ImageFetchingFromBackend/firebaseConfig";
-
-const SignUpScreen = ({ navigation }) => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+import React, {useState, useEffect} from 'react';
+import {View, Text, TextInput, Button, StyleSheet} from 'react-native';
+import {auth} from './ImageFetchingFromBackend/firebaseConfig';
+const SignUpScreen = ({navigation}) => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const [emailValid, setEmailValid] = useState(null);
   const [passwordValid, setPasswordValid] = useState(null);
 
   useEffect(() => {
-    setEmailValid(email === "" ? null : email.includes("@"));
+    setEmailValid(email === '' ? null : email.includes('@'));
   }, [email]);
 
   useEffect(() => {
-    setPasswordValid(password === "" ? null : password.length >= 6);
+    setPasswordValid(password === '' ? null : password.length >= 6);
   }, [password]);
 
- 
-  //   try {
-  //     if (auth && emailValid && passwordValid) {
-  //       const { user } = await auth.createUserWithEmailAndPassword(email, password);
-  //       await user.updateProfile({ displayName: name });
-
-  //       // await db.collection("users").doc(user.uid).set({
-  //       //   displayName: name,
-  //       //   email: email,
-  //       // });
-
-
-  //       navigation.navigate("Home", { userName: name });
-  //     } else {
-  //       console.log("Firebase auth not initialized");
-  //     }
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  // };
-  
   const handleSignUp = async () => {
     try {
       if (auth && emailValid && passwordValid) {
-        const { user } = await auth.createUserWithEmailAndPassword(email, password);
-        await user.updateProfile({ displayName: name });
-  
+        const {user} = await auth.createUserWithEmailAndPassword(
+          email,
+          password,
+        );
+        await user.updateProfile({displayName: name});
+
         navigation.reset({
           index: 0,
-          routes: [{ name: "Home", params: { userName: name } }],
+          routes: [{name: 'Home', params: {userName: name}}],
         });
       } else {
-        console.log("Firebase auth not initialized");
+        console.log('Firebase auth not initialized');
       }
     } catch (error) {
       setError(error.message);
     }
   };
-  
 
   return (
     <View style={styles.container}>
@@ -91,7 +71,11 @@ const SignUpScreen = ({ navigation }) => {
         secureTextEntry
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
-      <Button title="Sign Up" onPress={handleSignUp}     disabled={emailValid !== true || passwordValid !== true} />
+      <Button
+        title="Sign Up"
+        onPress={handleSignUp}
+        disabled={emailValid !== true || passwordValid !== true}
+      />
     </View>
   );
 };
@@ -99,7 +83,7 @@ const SignUpScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: 20,
   },
   title: {
@@ -108,19 +92,19 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
   },
   invalid: {
-    borderColor: "red",
+    borderColor: 'red',
   },
   valid: {
-    borderColor: "green",
+    borderColor: 'green',
   },
   error: {
-    color: "red",
+    color: 'red',
     marginBottom: 10,
   },
 });

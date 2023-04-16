@@ -1,22 +1,20 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
 
-const WelcomeScreen = ({ navigation }) => {
+const WelcomeScreen = ({navigation}) => {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Nordstone</Text>
 
       <TouchableOpacity
         onPress={() => navigation.navigate('SignUp')}
-        style={styles.buttonSignup}
-      >
+        style={styles.buttonSignup}>
         <Text style={styles.buttonText}>Sign Up</Text>
       </TouchableOpacity>
 
       <TouchableOpacity
         onPress={() => navigation.navigate('Login')}
-        style={styles.button}
-      >
+        style={styles.button}>
         <Text style={styles.buttonText}>Login</Text>
       </TouchableOpacity>
     </View>
@@ -34,12 +32,12 @@ const styles = StyleSheet.create({
     fontSize: 34,
     marginBottom: 20,
     fontFamily: 'Roboto-Bold',
-    color:'black',
+    color: 'black',
     fontWeight: 700,
   },
 
-  buttonSignup:{
-    backgroundColor: "black",
+  buttonSignup: {
+    backgroundColor: 'black',
     padding: 15,
     borderRadius: 5,
     alignItems: 'center',

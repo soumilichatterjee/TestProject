@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { db, storage } from "./firebaseConfig";
-import * as ImagePicker from "react-native-image-picker";
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity, StyleSheet} from 'react-native';
+import {db, storage} from './firebaseConfig';
+import * as ImagePicker from 'react-native-image-picker';
 
 const UploadPhoto = () => {
   const [image, setImage] = useState(null);
   const [progress, setProgress] = useState(0);
-  const [error, setError] = useState("");
+  const [error, setError] = useState('');
   const [imageSelected, setImageSelected] = useState(false);
 
   const handleChange = () => {
@@ -15,14 +15,14 @@ const UploadPhoto = () => {
       quality: 1,
       allowsEditing: true,
     };
-  
-    ImagePicker.launchImageLibrary(options, (response) => {
+
+    ImagePicker.launchImageLibrary(options, response => {
       if (response.didCancel) {
         console.log('User cancelled image picker');
       } else if (response.error) {
         console.log('ImagePicker Error: ', response.error);
       } else {
-        const source = { uri: response.assets[0].uri };
+        const source = {uri: response.assets[0].uri};
         setImage(source);
         setImageSelected(true);
       }
@@ -30,14 +30,14 @@ const UploadPhoto = () => {
   };
   const handleUpload = async () => {
     if (!image) {
-      setError("Please select an image to upload.");
+      setError('Please select an image to upload.');
       return;
     }
 
     const storageRef = storage.ref();
 
     const timestamp = new Date().getTime();
-    const fileExtension = image.uri.split(".").pop();
+    const fileExtension = image.uri.split('.').pop();
     const fileName = `${timestamp}.${fileExtension}`;
     const fileRef = storageRef.child(fileName);
     const response = await fetch(image.uri);
@@ -45,24 +45,24 @@ const UploadPhoto = () => {
     const uploadTask = fileRef.put(blob);
 
     uploadTask.on(
-      "state_changed",
-      (snapshot) => {
+      'state_changed',
+      snapshot => {
         const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100,
         );
         setProgress(progress);
       },
-      (error) => {
+      error => {
         setError(error.message);
       },
       async () => {
         const downloadURL = await fileRef.getDownloadURL();
         const createdAt = new Date().toISOString();
-        db.collection("photos").add({ downloadURL, createdAt });
+        db.collection('photos').add({downloadURL, createdAt});
         setImage(null);
         setProgress(0);
         setImageSelected(false);
-      }
+      },
     );
   };
 
@@ -74,8 +74,7 @@ const UploadPhoto = () => {
           styles.buttonChoose,
           imageSelected ? styles.buttonDisabled : {},
         ]}
-        disabled={imageSelected}
-      >
+        disabled={imageSelected}>
         <Text style={styles.buttonChooseText}>Choose Photo</Text>
       </TouchableOpacity>
 
@@ -84,49 +83,49 @@ const UploadPhoto = () => {
       </TouchableOpacity>
 
       {error && <Text>{error}</Text>}
-      {progress > 0 && <Text style={{ margin: 10 }}>{progress}% uploaded</Text>}
+      {progress > 0 && <Text style={{margin: 10}}>{progress}% uploaded</Text>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 
   buttonChoose: {
     padding: 15,
     borderRadius: 5,
-    width: "80%",
-    alignItems: "center",
+    width: '80%',
+    alignItems: 'center',
     marginTop: 30,
-    backgroundColor: "black",
+    backgroundColor: 'black',
   },
 
   buttonChooseText: {
-    color: "#ffffff",
+    color: '#ffffff',
     fontSize: 18,
-    fontFamily: "Helvetica Neue",
+    fontFamily: 'Helvetica Neue',
   },
 
   button: {
-    backgroundColor: "#2196f3",
+    backgroundColor: '#2196f3',
     padding: 15,
     borderRadius: 5,
-    width: "80%",
-    alignItems: "center",
+    width: '80%',
+    alignItems: 'center',
     marginTop: 20,
-    marginBottom: 30
+    marginBottom: 30,
   },
 
   buttonDisabled: {
-    backgroundColor: "#8a9094",
+    backgroundColor: '#8a9094',
   },
   buttonText: {
-    color: "white",
+    color: 'white',
     fontSize: 18,
-    fontFamily: "Helvetica Neue",
+    fontFamily: 'Helvetica Neue',
   },
 });
 export default UploadPhoto;

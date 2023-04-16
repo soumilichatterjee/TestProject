@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import { View,Text } from 'react-native';
+import React, {useState} from 'react';
+import {View, Text} from 'react-native';
 import TaskForm from './TaskForm';
 
-const NewTask = (props) => {
+const NewTask = props => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const enterTaskHandler = async (taskText) => {
+  const enterTaskHandler = async taskText => {
     setIsLoading(true);
     setError(null);
     try {
@@ -14,11 +14,11 @@ const NewTask = (props) => {
         'https://nordstone-third-tab-default-rtdb.firebaseio.com/tasks.json',
         {
           method: 'POST',
-          body: JSON.stringify({ text: taskText }),
+          body: JSON.stringify({text: taskText}),
           headers: {
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
 
       if (!response.ok) {
@@ -28,7 +28,7 @@ const NewTask = (props) => {
       const data = await response.json();
 
       const generatedId = data.name; // firebase-specific => "name" contains generated id
-      const createdTask = { id: generatedId, text: taskText };
+      const createdTask = {id: generatedId, text: taskText};
 
       props.onAddTask(createdTask);
     } catch (err) {

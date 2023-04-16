@@ -1,11 +1,11 @@
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity, View, Platform } from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, Platform} from 'react-native';
 import PushNotification from 'react-native-push-notification';
 import LinearGradient from 'react-native-linear-gradient';
-import {useEffect} from 'react'
+import {useEffect} from 'react';
 
 PushNotification.configure({
-  onNotification: function(notification) {
+  onNotification: function (notification) {
     console.log('NOTIFICATION:', notification);
   },
   permissions: {
@@ -18,8 +18,7 @@ PushNotification.configure({
 });
 
 export default function NotificationScreen() {
-
-useEffect(() => {
+  useEffect(() => {
     if (Platform.OS === 'android') {
       PushNotification.createChannel(
         {
@@ -27,7 +26,7 @@ useEffect(() => {
           channelName: 'My Channel',
           importance: PushNotification.Importance.HIGH,
         },
-        (created) => console.log(`createChannel returned '${created}'`),
+        created => console.log(`createChannel returned '${created}'`),
       );
     }
   }, []);
@@ -42,17 +41,13 @@ useEffect(() => {
   };
 
   return (
-    <LinearGradient
-      colors={['#4c669f', '#2196f3']}
-      style={styles.container}
-    >
+    <LinearGradient colors={['#4c669f', '#2196f3']} style={styles.container}>
       <TouchableOpacity style={styles.button} onPress={sendNotification}>
         <Text style={styles.buttonText}>Send Notification</Text>
       </TouchableOpacity>
     </LinearGradient>
   );
 }
-
 
 const styles = StyleSheet.create({
   container: {

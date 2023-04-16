@@ -1,12 +1,14 @@
 import React from 'react';
-import { View, Image, StyleSheet } from 'react-native';
+import {View, Image, StyleSheet} from 'react-native';
 
 const SplashScreen = () => {
   return (
     <View style={styles.container}>
       <Image
         style={styles.image}
-        source={{ uri: 'https://i.ibb.co/kDfPYDW/Nordstone-Assignment-By-Soumili.png' }}
+        source={{
+          uri: 'https://i.ibb.co/kDfPYDW/Nordstone-Assignment-By-Soumili.png',
+        }}
         resizeMode="contain"
       />
     </View>

@@ -1,7 +1,7 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
 
-const TaskItem = (props) => {
+const TaskItem = props => {
   return (
     <View style={styles.task}>
       <Text>{props.children}</Text>

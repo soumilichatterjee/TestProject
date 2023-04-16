@@ -6,15 +6,6 @@ const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  // const handleLogin = async () => {
-  //   try {
-  //     const { user } = await auth.signInWithEmailAndPassword(email, password);
-  //     navigation.navigate("Home", { userName: user.displayName });
-  //   } catch (error) {
-  //     setError(error.message);
-  //   }
-  // };
   const handleLogin = async () => {
     try {
       const { user } = await auth.signInWithEmailAndPassword(email, password);
