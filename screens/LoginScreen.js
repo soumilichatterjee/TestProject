@@ -1,24 +1,48 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, StyleSheet,TouchableOpacity  } from "react-native";
-import {auth } from "./ImageFetchingFromBackend/firebaseConfig";
+import { useNavigation } from "@react-navigation/native";
+
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import { auth } from "./ImageFetchingFromBackend/firebaseConfig";
 
 const LoginScreen = ({ navigation }) => {
+  const nav = useNavigation();
+  const [loading, setLoading] = useState(false);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+
   const handleLogin = async () => {
+    setLoading(true);
     try {
       const { user } = await auth.signInWithEmailAndPassword(email, password);
-      
+
       navigation.reset({
         index: 0,
-        routes: [{ name: 'Home', params: { userName: user.displayName } }],
+        routes: [
+          {
+            name: "AuthAppTabs",
+            params: {
+              screen: "Notification",
+              params: { userName: user.displayName },
+            },
+          },
+        ],
       });
     } catch (error) {
       setError(error.message);
+    } finally {
+      setLoading(false);
     }
   };
-  
 
   const handleForgotPassword = async () => {
     try {
@@ -49,9 +73,22 @@ const LoginScreen = ({ navigation }) => {
       />
       {error ? <Text style={styles.error}>{error}</Text> : null}
       <Button title="Login" onPress={handleLogin} />
-      <TouchableOpacity onPress={handleForgotPassword} style={styles.forgotPasswordButton}>
-      <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
-    </TouchableOpacity>
+      {loading ? (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#0000ff" />
+          <Text style={styles.loadingText}>Logging you in...</Text>
+        </View>
+      ) : null}
+
+      <TouchableOpacity
+        onPress={handleForgotPassword}
+        style={styles.forgotPasswordButton}
+      >
+        <Text style={styles.forgotPasswordText}>
+          Forgot Password?{" "}
+          <Text style={styles.forgotPasswordLink}>Reset Here</Text>
+        </Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -79,10 +116,21 @@ const styles = StyleSheet.create({
   },
   forgotPasswordButton: {
     marginTop: 10,
+    alignItems: "center",
   },
   forgotPasswordText: {
     color: "blue",
     textAlign: "center",
+  },
+  forgotPasswordLink: {
+    textDecorationLine: "underline",
+  },
+  loadingContainer: {
+    marginTop: 20,
+    alignItems: "center",
+  },
+  loadingText: {
+    marginTop: 10,
   },
 });
 

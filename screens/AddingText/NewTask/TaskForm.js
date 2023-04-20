@@ -29,7 +29,7 @@ const TaskForm = props => {
       />
       <TouchableOpacity style={styles.button} onPress={submitHandler}>
         <Text style={styles.buttonText}>
-          {props.loading ? 'Sending...' : 'Add Task'}
+          {props.loading ? 'Adding Task...' : 'Add Task'}
         </Text>
       </TouchableOpacity>
     </View>

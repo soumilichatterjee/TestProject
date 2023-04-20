@@ -13,6 +13,7 @@ function CalculatorScreen() {
   const [num2, setNum2] = useState('');
   const [operation, setOperation] = useState('addition');
   const [result, setResult] = useState('');
+  const [loading,setLoading]= useState(false);
 
   const firstNumHandler = value => {
     setNum1(Number(value));
@@ -26,6 +27,7 @@ function CalculatorScreen() {
     const apiUrl =
       'https://rainbow-liger-ba6aa0.netlify.app/.netlify/functions/api/calculate';
     try {
+      setLoading(true);
       const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
@@ -37,6 +39,8 @@ function CalculatorScreen() {
       setResult(data);
     } catch (error) {
       console.log(error);
+    }finally{
+      setLoading(false);
     }
     setNum1('');
     setNum2('');
@@ -117,8 +121,12 @@ function CalculatorScreen() {
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+      {loading ? (
+        <Text style={styles.buttonText}>Calculating...</Text>
+      ) : (
         <Text style={styles.buttonText}>Calculate</Text>
-      </TouchableOpacity>
+      )}
+    </TouchableOpacity>
 
       {result !== '' && (
         <View style={styles.result}>

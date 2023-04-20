@@ -1,5 +1,6 @@
-import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, Platform} from 'react-native';
+import React, {useState, useCallback} from 'react';
+import {auth} from './ImageFetchingFromBackend/firebaseConfig';
 import PushNotification from 'react-native-push-notification';
 import LinearGradient from 'react-native-linear-gradient';
 import {useEffect} from 'react';
@@ -17,7 +18,11 @@ PushNotification.configure({
   requestPermissions: Platform.OS === 'ios',
 });
 
-export default function NotificationScreen() {
+export default function NotificationScreen({route}) {
+
+  const {userName} = route.params ?? {};
+  const [sendingNotification, setSendingNotification] = useState(false);
+
   useEffect(() => {
     if (Platform.OS === 'android') {
       PushNotification.createChannel(
@@ -26,24 +31,33 @@ export default function NotificationScreen() {
           channelName: 'My Channel',
           importance: PushNotification.Importance.HIGH,
         },
-        created => console.log(`createChannel returned '${created}'`),
+        (created) => console.log(`createChannel returned '${created}'`),
       );
     }
   }, []);
 
-  const sendNotification = () => {
+  const sendNotification = useCallback(() => {
+    setSendingNotification(true);
     PushNotification.localNotification({
       channelId: 'my-channel',
       title: 'Welcome to Nordstone',
       message: 'Assignment by Soumili ✅',
       soundName: 'default',
     });
-  };
+    setTimeout(() => {
+      setSendingNotification(false);
+    }, 2000);
+  }, []);
 
   return (
     <LinearGradient colors={['#4c669f', '#2196f3']} style={styles.container}>
+      <Text style={styles.welcomeText}>Hello, {userName}!</Text>
       <TouchableOpacity style={styles.button} onPress={sendNotification}>
-        <Text style={styles.buttonText}>Send Notification</Text>
+        {sendingNotification ? (
+          <Text style={styles.buttonText}>Sending Notification...</Text>
+        ) : (
+          <Text style={styles.buttonText}>Send Notification</Text>
+        )}
       </TouchableOpacity>
     </LinearGradient>
   );
@@ -73,5 +87,11 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
     color: '#192f6a',
+  },
+  welcomeText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+    marginBottom: 20,
   },
 });
