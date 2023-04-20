@@ -1,6 +1,5 @@
 import {StyleSheet, Text, TouchableOpacity, Platform} from 'react-native';
 import React, {useState, useCallback} from 'react';
-import {auth} from './ImageFetchingFromBackend/firebaseConfig';
 import PushNotification from 'react-native-push-notification';
 import LinearGradient from 'react-native-linear-gradient';
 import {useEffect} from 'react';
@@ -19,7 +18,6 @@ PushNotification.configure({
 });
 
 export default function NotificationScreen({route}) {
-
   const {userName} = route.params ?? {};
   const [sendingNotification, setSendingNotification] = useState(false);
 
@@ -31,7 +29,7 @@ export default function NotificationScreen({route}) {
           channelName: 'My Channel',
           importance: PushNotification.Importance.HIGH,
         },
-        (created) => console.log(`createChannel returned '${created}'`),
+        created => console.log(`createChannel returned '${created}'`),
       );
     }
   }, []);

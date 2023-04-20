@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useNavigation } from "@react-navigation/native";
+import React, {useState} from 'react';
+import {useNavigation} from '@react-navigation/native';
 
 import {
   View,
@@ -9,30 +9,30 @@ import {
   StyleSheet,
   TouchableOpacity,
   ActivityIndicator,
-} from "react-native";
-import { auth } from "./ImageFetchingFromBackend/firebaseConfig";
+} from 'react-native';
+import {auth} from './ImageFetchingFromBackend/firebaseConfig';
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({navigation}) => {
   const nav = useNavigation();
   const [loading, setLoading] = useState(false);
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
 
   const handleLogin = async () => {
     setLoading(true);
     try {
-      const { user } = await auth.signInWithEmailAndPassword(email, password);
+      const {user} = await auth.signInWithEmailAndPassword(email, password);
 
       navigation.reset({
         index: 0,
         routes: [
           {
-            name: "AuthAppTabs",
+            name: 'AuthAppTabs',
             params: {
-              screen: "Notification",
-              params: { userName: user.displayName },
+              screen: 'Notification',
+              params: {userName: user.displayName},
             },
           },
         ],
@@ -47,7 +47,7 @@ const LoginScreen = ({ navigation }) => {
   const handleForgotPassword = async () => {
     try {
       await auth.sendPasswordResetEmail(email);
-      alert("Password reset email sent. Please check your inbox.");
+      alert('Password reset email sent. Please check your inbox.');
     } catch (error) {
       setError(error.message);
     }
@@ -82,10 +82,9 @@ const LoginScreen = ({ navigation }) => {
 
       <TouchableOpacity
         onPress={handleForgotPassword}
-        style={styles.forgotPasswordButton}
-      >
+        style={styles.forgotPasswordButton}>
         <Text style={styles.forgotPasswordText}>
-          Forgot Password?{" "}
+          Forgot Password?{' '}
           <Text style={styles.forgotPasswordLink}>Reset Here</Text>
         </Text>
       </TouchableOpacity>
@@ -96,7 +95,7 @@ const LoginScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: 20,
   },
   title: {
@@ -105,29 +104,29 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: "gray",
+    borderColor: 'gray',
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
   },
   error: {
-    color: "red",
+    color: 'red',
     marginBottom: 10,
   },
   forgotPasswordButton: {
     marginTop: 10,
-    alignItems: "center",
+    alignItems: 'center',
   },
   forgotPasswordText: {
-    color: "blue",
-    textAlign: "center",
+    color: 'blue',
+    textAlign: 'center',
   },
   forgotPasswordLink: {
-    textDecorationLine: "underline",
+    textDecorationLine: 'underline',
   },
   loadingContainer: {
     marginTop: 20,
-    alignItems: "center",
+    alignItems: 'center',
   },
   loadingText: {
     marginTop: 10,

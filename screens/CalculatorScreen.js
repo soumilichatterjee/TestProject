@@ -13,7 +13,7 @@ function CalculatorScreen() {
   const [num2, setNum2] = useState('');
   const [operation, setOperation] = useState('addition');
   const [result, setResult] = useState('');
-  const [loading,setLoading]= useState(false);
+  const [loading, setLoading] = useState(false);
 
   const firstNumHandler = value => {
     setNum1(Number(value));
@@ -39,7 +39,7 @@ function CalculatorScreen() {
       setResult(data);
     } catch (error) {
       console.log(error);
-    }finally{
+    } finally {
       setLoading(false);
     }
     setNum1('');
@@ -121,12 +121,12 @@ function CalculatorScreen() {
       </View>
 
       <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-      {loading ? (
-        <Text style={styles.buttonText}>Calculating...</Text>
-      ) : (
-        <Text style={styles.buttonText}>Calculate</Text>
-      )}
-    </TouchableOpacity>
+        {loading ? (
+          <Text style={styles.buttonText}>Calculating...</Text>
+        ) : (
+          <Text style={styles.buttonText}>Calculate</Text>
+        )}
+      </TouchableOpacity>
 
       {result !== '' && (
         <View style={styles.result}>

@@ -27,10 +27,13 @@ const SignUpScreen = ({navigation}) => {
   }, [email]);
 
   useEffect(() => {
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    const passwordRegex =
+      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     setPasswordValid(password === '' ? null : passwordRegex.test(password));
     if (password.length > 0 && !passwordValid) {
-      setPasswordFormat('Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character.');
+      setPasswordFormat(
+        'Password must contain at least 8 characters, 1 uppercase, 1 lowercase, 1 number, and 1 special character.',
+      );
     } else {
       setPasswordFormat('');
     }
@@ -48,7 +51,15 @@ const SignUpScreen = ({navigation}) => {
 
         navigation.reset({
           index: 0,
-          routes: [{ name: 'AuthAppTabs', params: { screen: 'Notification', params: { userName: user.displayName } } }],
+          routes: [
+            {
+              name: 'AuthAppTabs',
+              params: {
+                screen: 'Notification',
+                params: {userName: user.displayName},
+              },
+            },
+          ],
         });
       } else {
         console.log('Firebase auth not initialized');
@@ -106,48 +117,47 @@ const SignUpScreen = ({navigation}) => {
           disabled={emailValid !== true || passwordValid !== true}
         />
       )}
-      </View>
-      );
-    };
-    
-    const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-        justifyContent: 'center',
-        padding: 20,
-      },
-      title: {
-        fontSize: 24,
-        marginBottom: 20,
-      },
-      input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        marginBottom: 10,
-        paddingHorizontal: 10,
-      },
-      invalid: {
-        borderColor: 'red',
-      },
-      valid: {
-        borderColor: 'green',
-      },
-      error: {
-        color: 'red',
-        marginBottom: 10,
-      },
-      loadingText: {
-        fontSize: 16,
-        textAlign: 'center',
-        marginTop: 10,
-      },
-      passwordFormat: {
-        marginBottom: 10,
-        color: 'red',
-        fontStyle: 'italic',
-      },
-    });
-    
-    export default SignUpScreen
-    
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 24,
+    marginBottom: 20,
+  },
+  input: {
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    marginBottom: 10,
+    paddingHorizontal: 10,
+  },
+  invalid: {
+    borderColor: 'red',
+  },
+  valid: {
+    borderColor: 'green',
+  },
+  error: {
+    color: 'red',
+    marginBottom: 10,
+  },
+  loadingText: {
+    fontSize: 16,
+    textAlign: 'center',
+    marginTop: 10,
+  },
+  passwordFormat: {
+    marginBottom: 10,
+    color: 'red',
+    fontStyle: 'italic',
+  },
+});
+
+export default SignUpScreen;
